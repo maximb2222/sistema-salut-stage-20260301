@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SalutClubAttendance.Web.Models.ClubMember>
+@{
+    ViewData["Title"] = "Клиенты";
+    var search = ViewData["Search"]?.ToString();
+    var isActive = ViewData["IsActive"]?.ToString();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Клиенты клуба</h2>
+    <a asp-action="Create" class="btn btn-primary">Добавить клиента</a>
+</div>
+
+<div class="card form-section p-3 mb-3">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label">Поиск</label>
+            <input class="form-control" name="search" value="@search" placeholder="Имя, фамилия или телефон" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Статус</label>
+            <select name="isActive" class="form-select">
+                <option value="">Все</option>
+                <option value="true" selected="@(isActive == "True")">Только активные</option>
+                <option value="false" selected="@(isActive == "False")">Только неактивные</option>
+            </select>
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary">Применить</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Сбросить</a>
+        </div>
+    </form>
+</div>
+
+<div class="card form-section p-3">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Телефон</th>
+                    <th>Тип абонемента</th>
+                    <th>Действует до</th>
+                    <th>Статус</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.MembershipType</td>
+                        <td>@item.MembershipEndDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge text-bg-success">Активен</span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-secondary">Неактивен</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Детали</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Изменить</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SalutClubAttendance.Web.Models.Visit>
+@{
+    ViewData["Title"] = "Посещения";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Журнал посещений</h2>
+    <a asp-action="Create" class="btn btn-primary">Зарегистрировать посещение</a>
+</div>
+
+<div class="card form-section p-3 mb-3">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label">Клиент</label>
+            <select class="form-select" name="memberId" asp-items="ViewBag.Members">
+                <option value="">Все клиенты</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Дата с</label>
+            <input type="date" class="form-control" name="dateFrom" value="@ViewData["DateFrom"]" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Дата по</label>
+            <input type="date" class="form-control" name="dateTo" value="@ViewData["DateTo"]" />
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-outline-primary">Фильтр</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Сброс</a>
+        </div>
+        <div class="col-md-12 d-flex justify-content-end">
+            <a asp-action="ExportCsv"
+               asp-route-memberId="@ViewData["MemberId"]"
+               asp-route-dateFrom="@ViewData["DateFrom"]"
+               asp-route-dateTo="@ViewData["DateTo"]"
+               class="btn btn-outline-success">
+                Экспорт CSV
+            </a>
+        </div>
+    </form>
+</div>
+
+<div class="card form-section p-3">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Время входа</th>
+                    <th>Клиент</th>
+                    <th>Тренировка</th>
+                    <th>Способ</th>
+                    <th>Комментарий</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CheckInAt.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@item.ClubMember?.FullName</td>
+                        <td>@(item.WorkoutSession is null ? "Самостоятельная тренировка" : item.WorkoutSession.Title)</td>
+                        <td>@item.CheckInMethod</td>
+                        <td>@item.Notes</td>
+                        <td class="text-end">
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

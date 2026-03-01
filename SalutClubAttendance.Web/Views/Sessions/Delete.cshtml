@@ -1,0 +1,17 @@
+﻿@model SalutClubAttendance.Web.Models.WorkoutSession
+@{
+    ViewData["Title"] = "Удаление тренировки";
+}
+
+<h2 class="mb-3 text-danger">Удаление тренировки</h2>
+
+<div class="card form-section p-4">
+    <p>Удалить тренировку <strong>@Model.Title</strong> (@Model.StartsAt.ToString("dd.MM.yyyy HH:mm"))?</p>
+    <p class="text-muted">Связанные посещения останутся, но ссылка на тренировку будет очищена.</p>
+
+    <form asp-action="Delete" method="post" class="d-flex gap-2">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Отмена</a>
+    </form>
+</div>

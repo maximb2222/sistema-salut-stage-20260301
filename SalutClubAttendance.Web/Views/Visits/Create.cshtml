@@ -1,0 +1,54 @@
+﻿@model SalutClubAttendance.Web.Models.Visit
+@{
+    ViewData["Title"] = "Регистрация посещения";
+}
+
+<h2 class="mb-3">Регистрация посещения</h2>
+
+<div class="card form-section p-4">
+    <form asp-action="Create" method="post" class="row g-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-md-6">
+            <label asp-for="ClubMemberId" class="form-label"></label>
+            <select asp-for="ClubMemberId" asp-items="ViewBag.Members" class="form-select">
+                <option value="">Выберите клиента</option>
+            </select>
+            <span asp-validation-for="ClubMemberId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="WorkoutSessionId" class="form-label"></label>
+            <select asp-for="WorkoutSessionId" asp-items="ViewBag.Sessions" class="form-select">
+                <option value="">Без привязки к тренировке</option>
+            </select>
+            <span asp-validation-for="WorkoutSessionId" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="CheckInAt" class="form-label"></label>
+            <input asp-for="CheckInAt" type="datetime-local" class="form-control" />
+            <span asp-validation-for="CheckInAt" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="CheckInMethod" class="form-label"></label>
+            <select asp-for="CheckInMethod" class="form-select">
+                <option>Администратор</option>
+                <option>Турникет</option>
+                <option>Мобильное приложение</option>
+            </select>
+            <span asp-validation-for="CheckInMethod" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <label asp-for="Notes" class="form-label"></label>
+            <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+        <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,21 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Ошибка";
+}
+
+<div class="card form-section p-4">
+    <h2 class="text-danger">Произошла ошибка</h2>
+    <p>Во время обработки запроса возникла системная ошибка.</p>
+
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Идентификатор запроса:</strong>
+            <code>@Model.RequestId</code>
+        </p>
+    }
+
+    <p class="text-muted mb-0">
+        Проверьте корректность данных и повторите действие.
+    </p>
+</div>

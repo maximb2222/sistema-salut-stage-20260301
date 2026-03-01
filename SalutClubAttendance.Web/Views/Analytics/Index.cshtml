@@ -1,0 +1,140 @@
+﻿@using System.Text.Json
+@model SalutClubAttendance.Web.Models.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Аналитика";
+
+    var trendLabelsJson = JsonSerializer.Serialize(Model.DailyTrendLabels);
+    var trendDataJson = JsonSerializer.Serialize(Model.DailyTrendData);
+
+    var membershipLabelsJson = JsonSerializer.Serialize(Model.MembershipLabels);
+    var membershipDataJson = JsonSerializer.Serialize(Model.MembershipData);
+
+    var topSessionsLabelsJson = JsonSerializer.Serialize(Model.TopSessionsLabels);
+    var topSessionsDataJson = JsonSerializer.Serialize(Model.TopSessionsData);
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-dashboard p-3 h-100">
+            <div class="text-muted">Всего клиентов</div>
+            <div class="metric-value text-primary">@Model.TotalMembers</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-dashboard p-3 h-100">
+            <div class="text-muted">Активных клиентов</div>
+            <div class="metric-value text-success">@Model.ActiveMembers</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-dashboard p-3 h-100">
+            <div class="text-muted">Посещений сегодня</div>
+            <div class="metric-value text-info">@Model.VisitsToday</div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-dashboard p-3 h-100">
+            <div class="text-muted">Посещений за месяц</div>
+            <div class="metric-value text-dark">@Model.VisitsThisMonth</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-xl-8">
+        <div class="card card-dashboard p-3">
+            <h5 class="mb-3">Динамика посещений за 14 дней</h5>
+            <div class="chart-wrap">
+                <canvas id="dailyTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-4">
+        <div class="card card-dashboard p-3 h-100">
+            <h5 class="mb-3">Структура посещений по абонементам</h5>
+            <div class="chart-wrap">
+                <canvas id="membershipChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card card-dashboard p-3">
+            <h5 class="mb-3">Топ тренировок за 30 дней</h5>
+            <div class="chart-wrap">
+                <canvas id="topSessionsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+        const trendLabels = @Html.Raw(trendLabelsJson);
+        const trendData = @Html.Raw(trendDataJson);
+        const membershipLabels = @Html.Raw(membershipLabelsJson);
+        const membershipData = @Html.Raw(membershipDataJson);
+        const topSessionsLabels = @Html.Raw(topSessionsLabelsJson);
+        const topSessionsData = @Html.Raw(topSessionsDataJson);
+
+        new Chart(document.getElementById('dailyTrendChart'), {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [{
+                    label: 'Количество посещений',
+                    data: trendData,
+                    borderColor: '#0f4c81',
+                    backgroundColor: 'rgba(15, 76, 129, 0.16)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        new Chart(document.getElementById('membershipChart'), {
+            type: 'doughnut',
+            data: {
+                labels: membershipLabels,
+                datasets: [{
+                    data: membershipData,
+                    backgroundColor: ['#0f4c81', '#13795b', '#f59e0b', '#7c3aed', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('topSessionsChart'), {
+            type: 'bar',
+            data: {
+                labels: topSessionsLabels,
+                datasets: [{
+                    label: 'Посещений',
+                    data: topSessionsData,
+                    backgroundColor: '#13795b'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

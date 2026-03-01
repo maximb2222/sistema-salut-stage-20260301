@@ -1,0 +1,65 @@
+﻿:root {
+    --salut-primary: #0f4c81;
+    --salut-secondary: #13795b;
+    --salut-light: #f2f6fb;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    background-color: var(--salut-light);
+    color: #1f2937;
+}
+
+.bg-salut {
+    background: linear-gradient(120deg, var(--salut-primary), #1b6ca8);
+}
+
+.card-dashboard {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(15, 76, 129, 0.12);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.table thead th {
+    white-space: nowrap;
+}
+
+.form-section {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 10px 24px rgba(15, 76, 129, 0.08);
+}
+
+.chart-wrap {
+    min-height: 320px;
+}
+
+.btn-primary {
+    background-color: var(--salut-primary);
+    border-color: var(--salut-primary);
+}
+
+.btn-outline-primary {
+    color: var(--salut-primary);
+    border-color: var(--salut-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--salut-primary);
+    border-color: var(--salut-primary);
+}

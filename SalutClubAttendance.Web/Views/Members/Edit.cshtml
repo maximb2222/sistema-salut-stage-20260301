@@ -1,0 +1,67 @@
+﻿@model SalutClubAttendance.Web.Models.ClubMember
+@{
+    ViewData["Title"] = "Изменить клиента";
+}
+
+<h2 class="mb-3">Изменить клиента</h2>
+
+<div class="card form-section p-4">
+    <form asp-action="Edit" method="post" class="row g-3">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="RegisteredAt" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-md-6">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="MembershipType" class="form-label"></label>
+            <select asp-for="MembershipType" class="form-select">
+                <option>Стандарт</option>
+                <option>Премиум</option>
+                <option>Утренний</option>
+                <option>Безлимит</option>
+            </select>
+            <span asp-validation-for="MembershipType" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="MembershipStartDate" class="form-label"></label>
+            <input asp-for="MembershipStartDate" type="date" class="form-control" />
+            <span asp-validation-for="MembershipStartDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="MembershipEndDate" class="form-label"></label>
+            <input asp-for="MembershipEndDate" type="date" class="form-control" />
+            <span asp-validation-for="MembershipEndDate" class="text-danger"></span>
+        </div>
+        <div class="col-12 form-check ms-2">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label"></label>
+        </div>
+        <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

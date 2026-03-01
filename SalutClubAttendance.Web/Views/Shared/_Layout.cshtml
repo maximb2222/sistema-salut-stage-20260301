@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - СК Салют</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SalutClubAttendance.Web.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-salut">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand fw-semibold" asp-controller="Analytics" asp-action="Index">СК "Салют"</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Analytics" asp-action="Index">Аналитика</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Members" asp-action="Index">Клиенты</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Visits" asp-action="Index">Посещения</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Sessions" asp-action="Index">Тренировки</a></li>
+                    </ul>
+                    <span class="text-light small">Система учета посещаемости</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-fluid px-4 py-4">
+        @if (TempData["SuccessMessage"] is string successMessage)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @successMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] is string errorMessage)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @errorMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @RenderBody()
+    </main>
+
+    <footer class="border-top py-3 mt-4">
+        <div class="container-fluid px-4 text-muted small">
+            © @DateTime.Now.Year Спортивный клуб "Салют" | ASP.NET Core + SQLite + Bootstrap + Chart.js
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
